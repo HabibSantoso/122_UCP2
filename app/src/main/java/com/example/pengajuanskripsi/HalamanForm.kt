@@ -22,12 +22,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun HalamanForm(
     pilihDosen:List<String>,
-    onSelectionChange: (String) -> Unit,
-    onSubmitButtonCliked: () -> Unit,
+    //onSelectionChange: (String) -> Unit,
+    onSubmitButtonCliked: (MutableList<String>) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var txName by rememberSaveable { mutableStateOf("") }
@@ -37,8 +38,13 @@ fun HalamanForm(
     var txDp1 by remember { mutableStateOf("") }
     var txDp2 by remember { mutableStateOf("") }
 
-    Column(modifier = modifier,
-        verticalArrangement = Arrangement.SpaceBetween) {
+    var listDatatxt: MutableList<String> = mutableListOf(txName, txNim, txkonsen, txjudul, txDp1, txDp2)
+
+    Column(
+        modifier = Modifier.padding(8.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = stringResource(id = R.string.form))
         OutlinedTextField(
             value = txName,
             label = { Text(text = stringResource(id = R.string.nama)) },
@@ -64,13 +70,13 @@ fun HalamanForm(
                         selected = txDp1 == item,
                         onClick = {
                             txDp1 = item
-                            onSelectionChange(item)
+                            //onSelectionChange(item)
                         }),
                         verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(selected = txDp1 == item,
                             onClick = {
                                 txDp1 == item
-                                onSelectionChange(item)
+                                //onSelectionChange(item)
                             })
                         Text(text = item)
                     }
@@ -83,13 +89,13 @@ fun HalamanForm(
                         selected = txDp2 == item,
                         onClick = {
                             txDp2 = item
-                            onSelectionChange(item)
+                            //onSelectionChange(item)
                         }),
                         verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(selected = txDp2 == item,
                             onClick = {
                                 txDp2 == item
-                                onSelectionChange(item)
+                                //onSelectionChange(item)
                             })
                         Text(text = item)
                     }
@@ -97,7 +103,7 @@ fun HalamanForm(
             }
         }
 
-        Button(onClick = onSubmitButtonCliked) {
+        Button(onClick = {onSubmitButtonCliked(listDatatxt)}) {
             Text(text = stringResource(id = R.string.submit))
         }
     }

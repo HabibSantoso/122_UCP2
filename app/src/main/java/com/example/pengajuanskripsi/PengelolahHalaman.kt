@@ -46,14 +46,19 @@ fun PengajuanSkripsiApp(
                 val  context = LocalContext.current
                 HalamanForm(
                     pilihDosen = SumberData.dospem.map { id -> context.resources.getString(id) },
-                    onSelectionChange = {},
-                    onSubmitButtonCliked = { navController.navigate(PengelolahHalaman.Summary.name)})
+                    onSubmitButtonCliked = {
+                        viewModel.setPengajuan(it)
+                        navController.navigate(PengelolahHalaman.Summary.name)
+                    })
 
             }
             composable(route = PengelolahHalaman.Summary.name){
                 HalamanSummary(
                     SkripsiUIState = uiState,
-                    onBackButtonCliked = {navController.popBackStack(PengelolahHalaman.Form.name, inclusive = false)})
+                    onBackButtonCliked = {
+                        viewModel.resetPengajuan()
+                        navController.popBackStack(PengelolahHalaman.Form.name, inclusive = false)
+                    })
             }
         }
     }
